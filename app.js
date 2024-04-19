@@ -360,6 +360,7 @@ app.post("/save", function(req, res) {
         Note.findByIdAndUpdate(noteId, {title: noteTitle, description: noteDesc, color: noteColor})
             .then(function() {
                 console.log("Note edited");
+                req.session.destroy();  // Deleting the data
                 res.redirect("/");
             })
             .catch(function(err) {
@@ -370,14 +371,13 @@ app.post("/save", function(req, res) {
         Archive.findByIdAndUpdate(noteId, {title: noteTitle, description: noteDesc, color: noteColor})
             .then(function() {
                 console.log("Note edited");
+                req.session.destroy();
                 res.redirect("/archive")
             })
             .catch(function(err) {
                 console.log(err);
             })
-    }
-
-    
+    }    
 })
 
 
