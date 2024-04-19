@@ -8,8 +8,8 @@ const port = process.env.PORT || 3000;
 
 require('dotenv').config();
 
-const username = process.env.DB_USER;
-const password = process.env.DB_PASS;
+const username = encodeURIComponent(process.env.DB_USER);
+const password = encodeURIComponent(process.env.DB_PASS);
 
 mongoose.connect(`mongodb+srv://${username}:${password}@cluster0.cwfhadh.mongodb.net/noteDB`);
 app.use(bodyParser.urlencoded({extended: true}));
