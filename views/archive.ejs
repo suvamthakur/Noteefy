@@ -1,0 +1,48 @@
+<%- include("partials/header") %>
+
+<section class="main">
+    <h2 class="main-heading" style="color: #FFCA28;">Archive</h2>
+    <div class="notes-container">
+        <% notes.forEach(function(note) { %>
+            <div class="note-box" data-note-color="<%= note.color %>">
+                <h3 class="title"><%= note.title %></h3>
+                <textarea class="note" rows="9" readonly><%= note.description %></textarea> 
+                <div class="note-box-footer">
+
+                    <!-- Note Edit, Archive and Delete button -->
+                    <form action="/edit" method="post">
+                        <button class="archive-btn edit-btn">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        <input type="hidden" name="editNote" value="<%= note._id %>">
+                        <input type="hidden" name="route" value="Archive">
+
+                        <input type="hidden" class="note-color" name="notecolor">  <!-- sending note color to edit route-->
+                    </form>
+                    <form action="/unarchive" method="post">
+                        <button type="submit" name="unArchiveNote" value="<%= note._id %>" class="archive-btn">
+                            <i class="fa-solid fa-box-open"></i>
+                        </button>
+                    </form>
+                    <form action="/bin" method="post">
+                        <button type="submit" name="trashNote" value="<%= note._id %>" class="trash-btn">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                        <input type="hidden" name="route" value="Archive">
+                    </form>
+                </div>
+            </div>
+        <% }) %>   
+    </div>
+</section>
+
+<script>
+    // Adding colors to the note boxes (getting data from backend) using custom attribute
+    document.querySelectorAll('.note-box').forEach(function(note) {
+    
+        const noteColor = note.dataset.noteColor;
+
+        note.style.backgroundColor = noteColor;
+    
+    });
+</script>

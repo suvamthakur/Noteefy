@@ -1,0 +1,54 @@
+<%- include("partials/header") %>
+
+<form action="/save" method="post" class="edit-note" data-note-color="<%= note.color %>">
+    <textarea class="save-title" name="title" rows="1"><%= note.title %></textarea>
+    <textarea class="save-note" name="description" rows="15" id=""><%= note.description %></textarea>
+    <div class="create-note-footer">
+        <div class="color-picker"></div>
+        <button class="add-btn save-btn">Save</button>
+    </div>
+
+    <input type="hidden" class="note-color" name="notecolor">
+</form>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>  <!-- Pickr js -->
+<script>
+
+    const note = document.querySelector(".edit-note")
+    const noteColor = note.dataset.noteColor;
+    note.style.backgroundColor = noteColor;
+
+    // Color picker (pickr js)
+    const pickr = Pickr.create({
+        el: '.color-picker',
+        theme: 'nano', 
+
+        swatches: [
+            '#454DA7',
+        ],
+
+        components: {
+
+            // Main components
+            preview: true,
+            opacity: true,
+            hue: true,
+
+            // Input / output Options
+            interaction: {
+                input: true
+            }
+        }
+    });
+
+    pickr.on('change', (color, source, instance) => {
+        const selectedColor = color.toHEXA().toString();
+        
+        document.querySelector(".edit-note").style.backgroundColor = selectedColor;
+        document.querySelector(".note-color").value = selectedColor;    // passing this value in database
+        
+    })
+
+
+</script>

@@ -1,0 +1,23 @@
+<%- include("partials/header") %>
+
+<section class="main">
+    <div class="notes-container">
+        <% notes.forEach(function(note) { %>
+            <div class="note-box" data-note-color="<%= note.color %>">
+                <h3 class="title"><%= note.title %></h3>
+                <textarea class="note" rows="9" readonly><%= note.description %></textarea> 
+            </div>
+        <% }) %>
+    </div>  
+</section>
+
+<script>
+    // Adding colors to the note boxes (getting data from backend) using custom attribute
+    document.querySelectorAll('.note-box').forEach(function(note) {
+    
+        const noteColor = note.dataset.noteColor;
+
+        note.style.backgroundColor = noteColor;
+    
+    });
+</script>

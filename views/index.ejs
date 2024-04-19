@@ -1,0 +1,108 @@
+<%- include("partials/header") %>
+
+<section class="main">
+    <button class="create-btn">Create Note +</button>
+    <div class="notes-container">
+        <% notes.forEach(function(note) { %>
+            <div class="note-box" data-note-color="<%= note.color %>">  <!-- Custom attribute to get note color from DB and execute it using javascript -->
+                <h3 class="title"><%= note.title %></h3>
+                <textarea class="note" rows="9" readonly><%= note.description %></textarea> 
+                <div class="note-box-footer">
+
+                    <!-- Note Edit, Archive and Delete button -->
+                    <form action="/edit" method="post">
+                        <button class="archive-btn edit-btn">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        <input type="hidden" name="editNote" value="<%= note._id %>">
+                        <input type="hidden" name="route" value="Note">
+
+                        <input type="hidden" class="note-color" name="notecolor">  <!-- sending note color to edit route-->
+                    </form>
+                        <input type="hidden" name="route" value="Note">
+                    <form action="/archive" method="post">
+                        <button type="submit" name="archiveNote" value="<%= note._id %>" class="archive-btn">
+                            <i class="fa-solid fa-box-archive"></i>
+                        </button>
+                    </form>
+                    <form action="/bin" method="post">
+                        <button type="submit" name="trashNote" value="<%= note._id %>" class="trash-btn">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                        <input type="hidden" name="route" value="Note">
+                    </form>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</section>
+
+<!-- Adding a note -->
+<form action="/" method="post" class="create-note-container">
+    <input class="create-note-title" type="text" name="title" id="" placeholder="Title">
+    <textarea class="create-note-description" name="description" id="" cols="30" rows="10" placeholder="Note"></textarea>
+    <div class="create-note-footer">
+        <div class="color-picker"></div>
+        <button class="add-btn">Add +</button> 
+    </div>
+    <button type="button" class="close-btn"><i class="fa-solid fa-xmark fa-lg "></i></button>
+
+    <input type="hidden" class="note-color-create" name="notecolor">
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>  <!-- Pickr js -->
+<script>
+    const createNote = document.querySelector(".create-note-container");
+    const createBtn = document.querySelector(".create-btn");
+    const closeBtn = document.querySelector(".close-btn");
+
+    createBtn.addEventListener("click", function() {
+        createNote.style.display = "block"; 
+    })
+
+    closeBtn.addEventListener("click", function() {
+        createNote.style.display = "none"; 
+    })
+    
+    // Color picker (pickr js)
+
+    const pickr = Pickr.create({
+        el: '.color-picker',
+        theme: 'nano', 
+
+        swatches: [
+            '#454DA7',
+        ],
+
+        components: {
+
+            // Main components
+            preview: true,
+            opacity: true,
+            hue: true,
+
+            // Input / output Options
+            interaction: {
+                input: true
+            }
+        }
+    });
+
+    pickr.on('change', (color, source, instance) => {
+        const selectedColor = color.toHEXA().toString();
+        
+        createNote.style.backgroundColor = selectedColor;
+        document.querySelector(".note-color-create").value = selectedColor;    // passing this value in database
+        
+    })
+
+    // Adding colors to the note boxes (getting data from backend) using custom attribute
+    document.querySelectorAll('.note-box').forEach(function(note) {
+
+        const noteColor = note.dataset.noteColor;  // accessing data-note-color using dataset.noteColor
+
+        note.style.backgroundColor = noteColor;
+
+    });
+
+</script>

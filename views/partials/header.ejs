@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noteefy</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <!-- Pickr (color picker) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/>
+    <!-- CSS -->
+    <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body>
+    <navbar class="nav">
+        <div class="logo-container">
+            <img src="images/logo.png" alt="" class="logo">
+            <h1 class="logo-heading">Noteefy</h1>
+        </div>
+        <form action="/search" method="post" class="search-box">
+            <input type="text" name="searchText" id="" class="search-input" placeholder="Search">
+            <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+
+            <!-- Checking the route (bin or not by bin.ejs) -->
+            <input type="hidden" class="route-name" name="route">
+        </form>
+        <div class="user">
+            <img src="images/user.png" alt="" srcset="" class="user-img">
+        </div>
+    </navbar>
+    <div class="sub-nav">
+        <a href="/" class="home">
+            <img src="images/notes.png" alt="" srcset="">
+            <span>Notes</span>
+        </a>
+        <a href="/archive" class="archive">
+            <i class="fa-solid fa-box-archive" style="color: #ffca28;"></i>
+            <span>Archive</span>
+        </a>
+        <a href="/bin" class="bin">
+            <img src="images/bin.png" alt="" srcset="">
+            <span>Bin</span>
+        </a>
+    </div>

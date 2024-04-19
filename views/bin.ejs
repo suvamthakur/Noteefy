@@ -1,0 +1,42 @@
+<%- include("partials/header") %>
+
+<section class="main">
+    <h2 class="main-heading" style="color: #29B6F6;">Bin</h2>
+    <div class="notes-container">
+        <% notes.forEach(function(note) { %>
+            <div class="note-box" data-note-color="<%= note.color %>">
+                <h3 class="title"><%= note.title %></h3>
+                <textarea class="note" rows="9" readonly><%= note.description %></textarea> 
+                <div class="note-box-footer">
+
+                    <!-- Note Archive and Delete button -->
+                    <form action="/restore" method="post">
+                        <button type="submit" name="restoreNote" value="<%= note._id %>" class="archive-btn">
+                            <i class="fa-solid fa-trash-arrow-up"></i>
+                        </button>
+                    </form>
+                    <form action="/deletebin" method="post">
+                        <button type="submit" name="deleteNote" value="<%= note._id %>" class="trash-btn-routebin">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        <% }) %>   
+    </div>
+</section>
+
+<script>
+    // Adding colors to the note boxes (getting data from backend) using custom attribute
+    document.querySelectorAll('.note-box').forEach(function(note) {
+    
+        const noteColor = note.dataset.noteColor;
+
+        note.style.backgroundColor = noteColor;
+    
+    });
+    
+    // Passing route name
+    document.querySelector(".route-name").value = "Bin";
+
+</script>
