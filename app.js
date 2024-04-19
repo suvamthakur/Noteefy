@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const MemoryStore = require('memorystore')(session)
 const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,11 +19,16 @@ app.set('view engine', 'ejs');
 app.use(express.json())
 
 // Using Session to store data
+// This will store data in MemoryStore provided by ExpressJS and  expired session entries will be removed every 24 hours.
 app.use(session({
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
     resave: false,
-    saveUninitialized: false,
-    secret: "stickynotes"
+    secret: 'xyz'
 }))
+
 
 // Schemas
 const noteSchema = new mongoose.Schema({
@@ -360,7 +366,6 @@ app.post("/save", function(req, res) {
         Note.findByIdAndUpdate(noteId, {title: noteTitle, description: noteDesc, color: noteColor})
             .then(function() {
                 console.log("Note edited");
-                req.session.destroy();  // Deleting the data
                 res.redirect("/");
             })
             .catch(function(err) {
@@ -371,7 +376,6 @@ app.post("/save", function(req, res) {
         Archive.findByIdAndUpdate(noteId, {title: noteTitle, description: noteDesc, color: noteColor})
             .then(function() {
                 console.log("Note edited");
-                req.session.destroy();
                 res.redirect("/archive")
             })
             .catch(function(err) {
