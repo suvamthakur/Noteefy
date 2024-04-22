@@ -8,7 +8,7 @@
         <button class="add-btn save-btn">Save</button>
     </div>
 
-    <input type="hidden" class="note-color" name="notecolor">
+    <input type="hidden" class="note-color" value="<%= note.color %>" name="notecolor">
 </form>
 
 
@@ -41,13 +41,12 @@
             }
         }
     });
-
+    
     pickr.on('change', (color, source, instance) => {
         const selectedColor = color.toHEXA().toString();
         
+        document.querySelector(".note-color").value = selectedColor;    // passing this value in database  
         document.querySelector(".edit-note").style.backgroundColor = selectedColor;
-        document.querySelector(".note-color").value = selectedColor;    // passing this value in database
-        
     })
 
 
